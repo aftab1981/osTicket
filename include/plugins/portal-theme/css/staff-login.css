@@ -1,0 +1,146 @@
+/* ==========================================================================
+   Portal Theme — agent sign-in and password-reset pages (scp/login.php,
+   scp/pwreset.php). Split layout: brand panel left, sign-in card right.
+   ========================================================================== */
+html { --pt-font-stack: var(--pt-font, "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif); }
+html, body#loginBody {
+  margin: 0; min-height: 100%; background: #fbfcff !important;
+  font-family: var(--pt-font-stack); color: #3b4557; -webkit-font-smoothing: antialiased;
+}
+body#loginBody {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(420px, 560px);
+  min-height: 100vh;
+}
+#brickwall, #blur, #background { display: none !important; }
+
+/* Brand panel */
+.pt-login-brand {
+  position: relative; overflow: hidden; color: #fff;
+  background:
+    radial-gradient(1200px 500px at -10% 110%, rgba(255,255,255,.12), transparent 60%),
+    radial-gradient(700px 400px at 110% -10%, rgba(255,255,255,.10), transparent 60%),
+    linear-gradient(135deg, var(--pt-accent, #1f5fbf), var(--pt-accent-dark, #17478f));
+  display: flex; align-items: center;
+}
+.pt-login-brand:after {
+  /* faint grid, like the brand site's hero imagery */
+  content: ""; position: absolute; inset: 0; opacity: .08;
+  background-image: linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.pt-login-brand-inner { position: relative; z-index: 1; padding: 64px clamp(32px, 7vw, 96px); max-width: 620px; }
+.pt-login-brand .pt-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px; margin: 0 0 18px;
+  font-size: 12px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: rgba(255,255,255,.85);
+}
+.pt-login-brand .pt-eyebrow:before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #fff; }
+.pt-login-brand h1 {
+  margin: 0 0 18px; font-size: clamp(36px, 4.4vw, 56px); line-height: 1.05;
+  font-weight: var(--pt-heading-weight, 700); letter-spacing: var(--pt-heading-tracking, -.02em); color: #fff;
+}
+.pt-login-brand p { margin: 0 0 28px; font-size: 17px; line-height: 1.6; color: rgba(255,255,255,.85); max-width: 460px; }
+.pt-login-portal {
+  display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px;
+  border-radius: var(--pt-btn-radius, 8px); background: #fff; color: var(--pt-ink, #1d2433) !important;
+  font-weight: 600; font-size: 14.5px; text-decoration: none;
+}
+.pt-login-portal:hover { background: #eef1ff; }
+
+/* Sign-in card */
+#loginBox {
+  position: static; width: auto; max-width: 400px; margin: auto; padding: 44px 40px 32px;
+  background: #fff; border: 1px solid #e4e8f2; border-radius: 18px;
+  box-shadow: 0 10px 30px -12px rgba(9,12,24,.18); text-align: left; box-sizing: border-box;
+  align-self: center; justify-self: center; width: calc(100% - 64px);
+}
+#loginBox h1#logo { margin: 0 0 18px; height: auto; text-align: left; }
+#loginBox h1#logo a { display: inline-block; height: auto; }
+#loginBox h1#logo img { max-height: 40px; max-width: 220px; width: auto; }
+#loginBox h1#logo .valign-helper { display: none; }
+#login-message {
+  margin: 0 0 18px; padding: 0; font-size: 22px; font-weight: var(--pt-heading-weight, 700);
+  letter-spacing: -.01em; color: var(--pt-ink, #1d2433); text-align: left; text-shadow: none;
+}
+#loginBox .banner { color: #5d6a7f; text-align: left; }
+#loginBox fieldset { border: 0; padding: 0; margin: 0; }
+#loginBox input[type="text"], #loginBox input[type="password"], #loginBox input[type="email"] {
+  display: block; width: 100%; box-sizing: border-box; margin: 0 0 12px; padding: 11px 14px;
+  min-height: 44px; font-size: 15px; font-family: inherit; color: #1d2433;
+  border: 1px solid #cdd4e2; border-radius: 10px; background: #fff; box-shadow: none;
+}
+#loginBox input:focus {
+  outline: none; border-color: var(--pt-accent, #1f5fbf); box-shadow: 0 0 0 4px var(--pt-accent-soft, #e8eefb);
+}
+#loginBox button.submit, #loginBox input[type="submit"] {
+  float: none; display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; margin: 6px 0 0; padding: 11px 18px; min-height: 44px;
+  background: var(--pt-ink, #1d2433); color: #fff; border: 0; border-radius: var(--pt-btn-radius, 8px);
+  font: 600 15px var(--pt-font-stack); cursor: pointer; text-shadow: none; box-shadow: 0 10px 20px -12px rgba(9,12,24,.5);
+}
+#loginBox button.submit:hover { background: var(--pt-ink-hover, #333); }
+#loginBox h3 { margin: 0; }
+#reset-link, #loginBox a { color: var(--pt-accent, #1f5fbf); font-size: 13.5px; font-weight: 500; }
+#reset-link { display: inline-block; margin: 2px 0 8px; }
+#loginBox .or { margin: 22px 0 14px; }
+#loginBox .or hr { border: 0; border-top: 1px solid #e4e8f2; }
+#company { position: static; margin-top: 26px; padding-top: 18px; border-top: 1px solid #e4e8f2; }
+#company .content { color: #8a93a6; font-size: 12.5px; text-shadow: none; background: none; padding: 0; text-align: left; }
+#poweredBy { display: none; }
+#loading.dialog { border-radius: 14px; }
+
+@media (max-width: 860px) {
+  body#loginBody { grid-template-columns: 1fr; }
+  .pt-login-brand-inner { padding: 36px 24px 32px; }
+  .pt-login-brand h1 { font-size: 34px; }
+  .pt-login-brand p { font-size: 15px; margin-bottom: 20px; }
+  #loginBox { margin: 24px auto 40px; padding: 32px 24px 24px; width: calc(100% - 32px); }
+}
+
+/* Neutralise stock login.css positioning/overlays */
+body#loginBody { text-align: left; }
+#loginBox:after { display: none !important; }
+#loginBox { left: auto; top: auto; margin-left: auto; isolation: auto; }
+#loginBox form, #loginBox #login { width: auto; margin: 0; }
+#loginBox fieldset { margin: 0; }
+#company { left: auto; bottom: auto; width: auto; margin-left: 0; text-align: left; }
+#company .content { display: block; border-radius: 0; box-shadow: none; }
+.pt-login-brand, .pt-login-brand-inner { text-align: left; }
+
+/* ---- Microsoft (Entra ID) sign-in first, local password as fallback ---------
+   Button follows Microsoft's sign-in branding: four-square logo, neutral border. */
+#loginBox { display: flex; flex-direction: column; }
+#loginBox > h1#logo { order: 1; }
+#loginBox > #login-message { order: 2; }
+#loginBox > .banner { order: 3; }
+#loginBox > .external-auth { order: 4; }
+#loginBox > br { display: none; }
+#loginBox > .or { order: 5; }
+#loginBox > #loading { order: 5; }
+#loginBox > form { order: 6; }
+#loginBox > #company { order: 7; }
+#loginBox .external-auth { display: block; width: 100%; margin: 0 0 4px; }
+#loginBox .external-auth a.external-sign-in {
+  display: block; width: 100%; padding: 0; border: 1px solid #8c8c8c; border-radius: 999px;
+  background: #fff; text-decoration: none; box-sizing: border-box;
+}
+#loginBox .external-auth a.external-sign-in:hover { background: #f3f3f3; }
+#loginBox .external-auth-box {
+  border: 0; border-radius: 0; width: auto;
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  min-height: 46px; padding: 0 16px; color: #5e5e5e; font: 600 15px var(--pt-font-stack);
+}
+#loginBox .external-auth-icon { display: none; }
+#loginBox .external-auth-box:before {
+  content: ""; width: 20px; height: 20px; flex: none;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 21 21'><rect x='1' y='1' width='9' height='9' fill='%23f25022'/><rect x='11' y='1' width='9' height='9' fill='%237fba00'/><rect x='1' y='11' width='9' height='9' fill='%2300a4ef'/><rect x='11' y='11' width='9' height='9' fill='%23ffb900'/></svg>") no-repeat center / contain;
+}
+#loginBox .external-auth-name { color: #1d2433; width: auto; padding: 0; line-height: 1.2; font-size: 15px; white-space: nowrap; }
+#loginBox .or { margin: 18px 0 12px; display: flex; align-items: center; gap: 12px; color: #8a93a6; font-size: 12.5px; }
+#loginBox .or hr { flex: 1; margin: 0; }
+#loginBox .or:after { content: "or use a local account"; white-space: nowrap; order: 1; }
+#loginBox .or:before { content: ""; flex: 1; border-top: 1px solid #e4e8f2; order: 2; }
+#loginBox .or hr { order: 0; }
+#loginBox:has(.external-auth) form input[type="text"],
+#loginBox:has(.external-auth) form input[type="password"] { min-height: 40px; }
+#loginBox:has(.external-auth) button.submit { background: #fff; color: var(--pt-ink, #1d2433); border: 1px solid #cdd4e2; box-shadow: none; }
+#loginBox:has(.external-auth) button.submit:hover { background: #f8fafc; }
